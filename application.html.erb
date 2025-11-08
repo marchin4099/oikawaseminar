@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>早稲田大学教育学部　及川ゼミ</title>
+  <meta name="description" content="早稲田大学教育学部・社会科公共市民学専修の及川ゼミのホームページです。ゼミ概要、活動予定、学生紹介、Q&Aなどを掲載しています。">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+  <link href="https://fonts.googleapis.com/css2?family=Kavoon&display=swap" rel="stylesheet">
+
+  <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0V2G81DP8D"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-0V2G81DP8D');
+      </script>
+
+  </head>
+
+
+  <body>
+    <header>
+      <h1>早稲田大学教育学部　及川ゼミ</h1>
+
+      <!-- ハンバーガーメニュー（スマホ用） -->
+      <div class="menu-toggle">☰</div>
+
+      <nav class="header-list" id="navMenu">
+
+        <%= link_to 'Top', controller: "tweets", action: "top" %>
+  
+
+        <div class="aboutus dropdown">
+        <a href="#" class="aboutus-link">About us <span class="caret">▼</span></a>
+        <div class="links">
+        <%= link_to 'Overview', controller: "tweets", action: "outline" %>
+        <%= link_to 'Q&A', controller: "tweets", action: "question" %>
+        </div>
+        </div>
+
+        <div class="activities dropdown">
+        <a href="#" class="activities-link">Activities <span class="caret">▼</span></a>
+        <div class="links">
+        <%= link_to 'Plans', controller: "tweets", action: "schedule" %>
+        <%= link_to 'Blogs', controller: "tweets", action: "index" %>
+        </div>
+        </div>
+
+        <div class="members dropdown">
+        <a href="#" class="members-link">Members <span class="caret">▼</span></a>
+         <div class="links">
+         <%= link_to 'Teacher', controller: "tweets", action: "teacher" %>
+          <%= link_to 'Students', controller: "tweets", action: "student" %>
+        </div>
+        </div>
+        <%= link_to 'News', controller: "tweets", action: "news" %>
+
+      </nav>
+    </header>
+    <nav class="header-nav">
+      <%= link_to 'トップページ', controller: "tweets", action: "top" %>
+      <%= link_to 'ゼミ概要', controller: "tweets", action: "outline" %>
+      <%= link_to 'Q&A', controller: "tweets", action: "question" %>
+      <%= link_to '年間予定', controller: "tweets", action: "schedule" %>
+      <%= link_to '活動ブログ', controller: "tweets", action: "index" %>
+      <%= link_to '教員紹介', controller: "tweets", action: "teacher" %>
+      <%= link_to 'ゼミ生紹介', controller: "tweets", action: "student" %>
+      <%= link_to 'お知らせ', controller: "tweets", action: "news" %>
+    </nav>
+
+    <main>
+      <%= yield %>
+    </main>
+
+    <footer>
+    <div class="footer-sns">
+    <a href="https://www.instagram.com/oikawa_zemiii?igsh=MTk3d201NWJvczlxaA==" target="_blank" rel="noopener">
+      <%= image_tag "インスタ　アイコン.png", alt: "Instagram", class: "insta-icon" %>
+    </a>
+    <a href="https://line.me/ti/g2/SfbULoGEmAWoT1aAh0XnD6KRkZOXD4zk79qlug?utm_source=invitation&utm_medium=QR_code&utm_campaign=default" target="_blank" rel="noopener">
+    <%= image_tag "オープンチャット　アイコン.png", alt: "LINEオープンチャット", class: "line-icon" %>
+  </a>
+     </div>
+    <nav class="footer-links">
+    <%= link_to 'トップページ', controller: "tweets", action: "top" %>
+    <%= link_to 'ゼミ概要', controller: "tweets", action: "outline" %>
+    <%= link_to 'Q&A', controller: "tweets", action: "question" %>
+    <%= link_to '年間予定', controller: "tweets", action: "schedule" %>
+    <%= link_to '活動ブログ', controller: "tweets", action: "index" %>
+    <%= link_to '教員紹介', controller: "tweets", action: "teacher" %>
+    <%= link_to 'ゼミ生紹介', controller: "tweets", action: "student" %>
+    <%= link_to 'お知らせ', controller: "tweets", action: "news" %>
+    </nav>
+  <p class="footer-copy">Copyright © Oikawa Seminar Rights Reserved.</p>
+</footer>
+
+
+    <!-- ✅ スマホ時のみクリックでメニュー展開 -->
+    <script>
+  document.addEventListener("turbo:load", function () {
+    const nav = document.getElementById("navMenu");
+    const menuToggle = document.querySelector(".menu-toggle");
+
+    // ☰ ハンバーガーメニュー開閉
+    if (menuToggle) {
+      menuToggle.onclick = () => {
+        nav.classList.toggle("active");
+      };
+    }
+
+    // イベントの重複防止：一度登録したらしないように（data-listened で判別）
+    document.querySelectorAll(".dropdown > a").forEach(link => {
+      if (!link.dataset.listened) {
+        link.addEventListener("click", function (e) {
+          if (window.innerWidth <= 1920) {
+            e.preventDefault();
+            const parent = this.closest(".dropdown");
+            parent.classList.toggle("open");
+          }
+        });
+        link.dataset.listened = "true"; // マークして再登録を防止
+      }
+    });
+
+    document.querySelectorAll(".links a").forEach(link => {
+      if (!link.dataset.listened) {
+        link.addEventListener("click", () => {
+          if (window.innerWidth <= 1920) {
+            nav.classList.remove("active");
+            document.querySelectorAll(".dropdown").forEach(d => d.classList.remove("open"));
+          }
+        });
+        link.dataset.listened = "true";
+      }
+    });
+  });
+</script>
+
+  </body>
+</html>
